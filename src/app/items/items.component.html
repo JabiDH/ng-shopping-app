@@ -1,0 +1,11 @@
+<p>items works!</p>
+<ul *ngFor="let item of items$ | async">
+    <li>
+        <p>{{ item.name }}</p>
+        <p>{{ item.description }}</p>
+        <p> {{ item.price }} </p>
+        <p>{{ item.category.name }}</p>
+        <img [src]="item.imagePath" alt="" style="height: 200px;">
+    </li>
+
+</ul>

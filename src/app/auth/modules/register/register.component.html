@@ -1,0 +1,107 @@
+<div class="row">
+  <div class="col-xs-12 col-md-3 col-md-offset-4">
+    <h2 class="text-uppercase text-center">Create an account</h2>
+    <p *ngIf="error" class="invalid-text">
+      {{ error }}
+    </p>
+    <form [formGroup]="regForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Your Email</label>
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          formControlName="email"
+        />
+        <div
+          class="invalid-text"
+          *ngIf="
+            regForm.get('email')?.invalid &&
+            (regForm.get('email')?.dirty || regForm.get('email')?.touched)
+          "
+        >
+          <div *ngIf="regForm.get('email')?.hasError('required')">
+            Email is required.
+          </div>
+          <div *ngIf="regForm.get('email')?.hasError('email')">
+            Should be a valid email format.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          class="form-control"
+          formControlName="password"
+        />
+        <div
+          class="invalid-text"
+          *ngIf="
+            regForm.get('password')?.invalid &&
+            (regForm.get('password')?.dirty || regForm.get('password')?.touched)
+          "
+        >
+          <div *ngIf="regForm.get('password')?.hasError('required')">
+            Password is required.
+          </div>
+          <div *ngIf="regForm.get('password')?.hasError('pattern')">
+            <ul>
+              <li>Password should have at least one uppercase</li>
+              <li>Password should have at least one lowercase</li>
+              <li>Password should have at least one number</li>
+              <li>Password should have at least one special character</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm your password</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          class="form-control"
+          formControlName="confirmPassword"
+        />
+        <div
+          class="invalid-text"
+          *ngIf="
+            regForm.hasError('passwordMismatch') ||
+            (regForm.get('confirmPassword')?.invalid &&
+              (regForm.get('confirmPassword')?.dirty ||
+                regForm.get('confirmPassword')?.touched))
+          "
+        >
+          <div *ngIf="regForm.get('confirmPassword')?.hasError('required')">
+            Confirm password is required.
+          </div>
+          <div *ngIf="regForm.hasError('passwordMismatch')">
+            Password and confirm password does not match.
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button
+          type="submit"
+          class="btn btn-primary btn-lg btn-block"
+          [disabled]="!regForm.touched || !regForm.valid || isLoading"
+        >
+          {{ isLoading? "" : "Register" }}
+          <app-loading-spinner
+            *ngIf="isLoading"
+            style="text-align: center"
+          ></app-loading-spinner>
+        </button>
+      </div>
+
+      <p class="text-center text-muted">
+        Have already an account?
+        <a routerLink="/login"><u>Login here</u></a>
+      </p>
+    </form>
+  </div>
+</div>
