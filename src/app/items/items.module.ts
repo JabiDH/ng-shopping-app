@@ -9,10 +9,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ItemCardComponent } from './item-list/item-card/item-card.component';
 
 const routes: Routes = [
-  { path: '', component: ItemsComponent },
-  { path: 'new', component: ItemEditComponent },
-  { path: ':id' , component: ItemDetailComponent },
-  { path: ':id/edit', component: ItemEditComponent }
+  {
+    path: '',
+    component: ItemsComponent,
+    children: [
+      { path: 'new', component: ItemEditComponent },
+      { path: ':id', component: ItemDetailComponent },
+      { path: ':id/edit', component: ItemEditComponent },
+    ],
+  },
 ];
 
 @NgModule({
@@ -21,13 +26,13 @@ const routes: Routes = [
     ItemListComponent,
     ItemDetailComponent,
     ItemEditComponent,
-    ItemCardComponent
+    ItemCardComponent,
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
     FormsModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+  ],
 })
-export class ItemsModule { }
+export class ItemsModule {}

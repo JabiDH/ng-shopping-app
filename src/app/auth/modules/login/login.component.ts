@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     let request: LoginRequestDto = {
       email: this.loginForm.value.email,
       password: this.loginForm.value.password,
-      ExpireOnInSeconds: 15 * 60 // 15 mins      
+      ExpireOnInSeconds: 60 * 60 * 24 // 1 day      
     };
 
     this.isLoading = true;   
@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       (res: LoginResponseDto) => {
         this.isLoading = false;
         this.error = null;
-        this.router.navigate(['/home']);
+        this.router.navigate(['/items']);
       }, 
       (errorRes: string) => {
         this.error = errorRes;
