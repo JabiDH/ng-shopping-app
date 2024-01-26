@@ -9,12 +9,10 @@ import { Item } from './models/item.model';
   styleUrl: './items.component.css'
 })
 export class ItemsComponent implements OnInit {
-  items$: Observable<Item[]> = new Observable();
 
   constructor(private itemsService: ItemsService){
   }
   
   ngOnInit(): void {
-    this.items$ = this.itemsService.loadAllItems();
   }
 }

@@ -2,6 +2,8 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { RegisterComponent } from "./register.component";
 import { SharedModule } from "../../../shared/modules/shared.module";
+import { CommonModule } from "@angular/common";
+import { ReactiveFormsModule } from "@angular/forms";
 
 export const routes: Routes = [
     { 
@@ -16,7 +18,9 @@ export const routes: Routes = [
     ],
     imports: [       
         RouterModule.forChild(routes),
-        SharedModule
+        SharedModule,
+        CommonModule,
+        ReactiveFormsModule,
     ]
 })
 export class RegisterModule {

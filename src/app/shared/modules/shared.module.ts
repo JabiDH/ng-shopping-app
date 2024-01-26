@@ -14,8 +14,6 @@ import { LoadingSpinnerComponent } from "../loading-spinner/loading-spinner.comp
         ReactiveFormsModule
     ],
     exports: [
-        CommonModule,
-        ReactiveFormsModule,
         DropdownDirective,
         LoadingSpinnerComponent
     ]
