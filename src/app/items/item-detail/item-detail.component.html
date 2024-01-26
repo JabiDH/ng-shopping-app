@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col-xs-12">
+    <button (click)="onEditItem()" class="btn btn-default pull-right">
+      Edit Item
+    </button>
+  </div>
+</div>
+<div class="row" *ngIf="item$ | async as item">
+  <div class="col-xs-12 text-center">
+    <img [src]="item.imagePath" alt="Image" style="height: 300px" />
+  </div>
+  <div class="col-xs-12">
+    <a href="#"> {{ item.category.name }}</a>
+  </div>
+  <div class="col-xs-12">
+    <h3>
+      {{ item.name }}
+      <span class="pull-right"> {{ item.price | currency }}</span>
+    </h3>
+  </div>
+  <div class="col-xs-12">
+    <p>{{ item.description }}</p>
+  </div>
+</div>

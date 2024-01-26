@@ -1,0 +1,21 @@
+<div class="row" style="padding-bottom: 10px">
+  <div class="col-xs-12">
+    <a
+      class="list-group-item clearfix"
+      routerLinkActive="active"
+      [routerLink]="[item.id]"
+      style="cursor: pointer"
+    >
+      <img
+        class="pull-right"
+        [src]="item.imagePath"
+        alt="image"
+        style="height: 50px"
+      />
+      <div>
+        <h4>{{ item.name }}</h4>
+        <p style="font-weight:bold"> {{ item.price | currency }}</p>
+      </div>
+    </a>
+  </div>
+</div>
