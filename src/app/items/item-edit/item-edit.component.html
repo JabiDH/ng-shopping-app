@@ -1,52 +1,80 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="form-group">
-    <label for="category">Category</label>
-    <select
-      name="category"
-      id="category"
-      class="form-control"
-      formControlName="category"
-    >
-      <option *ngFor="let cat of categories$ | async" [value]="cat.id">
-        {{ cat.name }}
-      </option>
-    </select>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="categories$ | async"> 
+  <div class="row pull-right">
+    <div class="col-xs-12">
+      <button type="button" class="btn btn-danger" (click)="onCancel()">
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="btn btn-success"
+        [disabled]="!form.valid || !form.touched"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label for="category">Category</label>
+        <select
+          name="category"
+          id="category"
+          class="form-control"
+          formControlName="category"
+        >
+          <option *ngFor="let cat of categories$ | async" [value]="cat.id">
+            {{ cat.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          class="form-control"
+          type="text"
+          id="name"
+          name="name"
+          formControlName="name"
+        />
+      </div>
+    </div>
   </div>
 
-  <div class="form-group">
-    <label for="name">Name</label>
-    <input
-      class="form-control"
-      type="text"
-      id="name"
-      name="name"
-      formControlName="name"
-    />
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label for="price">Price</label>
+        <input
+          class="form-control"
+          type="number"
+          name="price"
+          id="price"
+          formControlName="price"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          class="form-control"
+          name="description"
+          id="description"
+          rows="5"
+          formControlName="description"
+        ></textarea>
+      </div>
+    </div>
   </div>
 
-  <div class="form-group">
-    <label for="price">Price</label>
-    <input
-      class="form-control"   
-      type="number"   
-      name="price"
-      id="price"
-      formControlName="price"
-    />
-  </div>
-
-  <div class="form-group">
-    <label for="description">Description</label>
-    <textarea
-      class="form-control"
-      name="description"
-      id="description"
-      rows="5"
-      formControlName="description"
-    ></textarea>
-  </div>
-
-  <div class="form-group">
+  <!-- <div class="form-group">
     <label for="imagePath">Image Url</label>
     <input
       class="form-control"
@@ -57,7 +85,6 @@
       #imagePath
     />
   </div>
-
   <div class="row">
     <div class="col-xs-12">
       <img
@@ -68,25 +95,51 @@
         style="height: 100px"
       />
     </div>
-  </div>
+  </div> -->
 
   <div class="row">
-    <div class="col-xs-12">
-      <button
-        type="submit"
-        class="btn btn-success"
-        [disabled]="!form.valid || !form.touched"
+    <div class="col-xs-12" formArrayName="images">
+      <label for="imagePath">Image Url(s)</label>
+      <div class="row"
+        *ngFor="let imgControl of imagesFormArray.controls; let i = index"
+        [formGroupName]="i"
       >
-        Save
-      </button>
-      <button
-        type="button"
-        class="btn btn-danger"
-        style="margin-left: 10px"
-        (click)="onCancel()"
-      >
-        Cancel
-      </button>
+        <div class="col-xs-9">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="path"
+            #path
+          />
+        </div>
+        <div class="col-xs-2">
+          <img [src]="path.value" alt="" style="height: 50px" />
+        </div>
+        <div class="col-xs-1">
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="onDeleteImage(i)"
+            *ngIf="i > 0"
+          >
+            X
+          </button>
+        </div>
+      </div>
+
+      <div class="row" style="padding-top: 15px;">
+        <div class="col-xs-12">
+          <button
+            type="button"
+            class="btn btn-default"
+            (click)="onAddImage()"
+          >
+            Add Image
+          </button>
+        </div>
+      </div>
+
     </div>
   </div>
+
 </form>

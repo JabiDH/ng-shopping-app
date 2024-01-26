@@ -30,7 +30,7 @@ export class ItemsService {
   private loadAllItems(): void {
     console.log('ItemsService -> loadData()');
     this.dataService
-      .GetAllItems()
+      .getAllItems()
       .pipe(
         catchError(throwError),
         tap((res) => console.log('GetAllItems -> ', res))
@@ -64,7 +64,7 @@ export class ItemsService {
   }
 
   selectItemById(id: number): Observable<Item | undefined> {
-    return this.dataService.GetItem(id).pipe(
+    return this.dataService.getItem(id).pipe(
       catchError((err) => {
         if (err.status === HttpStatusCode.NotFound) {
           this.router.navigate(['/items']);
@@ -77,7 +77,7 @@ export class ItemsService {
 
   saveItem(id: number, item: Item): void {
     this.dataService
-      .UpsertItem(id, item)
+      .upsertItem(id, item)
       .pipe(map((itemDto) => itemDto as Item))
       .subscribe((savedItem) => {
         // Push or update a new state to item$

@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { ItemDto } from '../dtos/items/item.dto';
 import { Observable, catchError, map, tap, throwError } from 'rxjs';
-import { GetAllItemsResponseDto } from '../dtos/items/getallitems-response.dts';
-import { CategoryDto } from '../dtos/items/category.dto';
-import { GetAllCategoriesResponseDto } from '../dtos/categories/getallcategories-response.dto';
-import { GetItemResponseDto } from '../dtos/items/getitem-response.dto';
-import { UpsertItemResponseDto } from '../dtos/items/upsertitem-response.dto';
+import { CategoryDto } from '../dtos/categories/category.dto';
+import { CategoriesResponseDto } from '../dtos/categories/categories-response.dto';
+import { ItemsResponseDto } from '../dtos/items/items-response.dts';
+import { ItemResponseDto } from '../dtos/items/item-response.dto';
+
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +16,9 @@ export class DataService {
   constructor(private http: HttpClient) {}
 
   // Get all items
-  GetAllItems(): Observable<ItemDto[]> {
+  getAllItems(): Observable<ItemDto[]> {
     return this.http
-      .get<GetAllItemsResponseDto>(
+      .get<ItemsResponseDto>(
         `${environment.shoppingCartApiUrl}/item/GetAllItems`
       )
       .pipe(
@@ -29,9 +29,9 @@ export class DataService {
   }
 
   // Get all Categories
-  GetAllCategories(): Observable<CategoryDto[]> {
+  getAllCategories(): Observable<CategoryDto[]> {
     return this.http
-      .get<GetAllCategoriesResponseDto>(
+      .get<CategoriesResponseDto>(
         `${environment.shoppingCartApiUrl}/category/GetAllCategories`
       )
       .pipe(
@@ -42,29 +42,50 @@ export class DataService {
   }
 
   // Get item by id
-  GetItem(id: number) : Observable<ItemDto> {
+  getItem(id: number): Observable<ItemDto> {
     return this.http
-      .get<GetItemResponseDto>(`${environment.shoppingCartApiUrl}/item/GetItem/${id}`)
+      .get<ItemResponseDto>(
+        `${environment.shoppingCartApiUrl}/item/GetItem/${id}`
+      )
       .pipe(
         catchError(throwError),
-        tap(res => console.log(`GetItem/${id} ->`, res)),
-        map(res => res.item)
-      )
+        tap((res) => console.log(`GetItem/${id} ->`, res)),
+        map((res) => res.item)
+      );
   }
 
   // Create or Update item
-  UpsertItem(id: number, item: ItemDto) : Observable<ItemDto> {    
-    const upsert = id === 0 ? 
-      this.http.post<UpsertItemResponseDto>(`${environment.shoppingCartApiUrl}/item/CreateItem`, item) :
-      this.http.put<UpsertItemResponseDto>(`${environment.shoppingCartApiUrl}/item/UpdateItem/${id}`, item);
+  upsertItem(id: number, item: ItemDto): Observable<ItemDto> {
+    const upsert =
+      id === 0
+        ? this.http.post<ItemResponseDto>(
+            `${environment.shoppingCartApiUrl}/item/CreateItem`,
+            item
+          )
+        : this.http.put<ItemResponseDto>(
+            `${environment.shoppingCartApiUrl}/item/UpdateItem/${id}`,
+            item
+          );
 
-    return upsert
+    return upsert.pipe(
+      catchError(throwError),
+      tap((res) => {
+        console.log(`UpsertItem/${id} -> `, res);
+      }),
+      map((res) => res.item)
+    );
+  }
+
+  // Delete an item
+  deleteItem(id: number): Observable<ItemDto> {
+    return this.http
+      .delete<ItemResponseDto>(`${environment.shoppingCartApiUrl}/item/DeleteItem/${id}`)
       .pipe(
         catchError(throwError),
-        tap(res => {
-          console.log(`Upsert/${id} -> `, res);
-        }),        
-        map(res => res.item)
+        tap((res) => {
+          console.log(`DeleteItem/${id} -> `, res);
+        }),
+        map((res) => res.item)
       );
   }
 }

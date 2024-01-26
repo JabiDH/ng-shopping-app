@@ -18,7 +18,7 @@ export class CategoriesService {
 
   private loadCategories() {
     this.dataService
-      .GetAllCategories()
+      .getAllCategories()
       .subscribe((cats) => this.categriesSub.next(cats));
   }
 
