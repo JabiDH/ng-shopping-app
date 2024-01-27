@@ -5,3 +5,7 @@
 input.ng-invalid.ng-touched {
     border: 1px solid red;
 }
+.btn-right-align {
+    float: right !important;
+    margin-right: -15px;
+}

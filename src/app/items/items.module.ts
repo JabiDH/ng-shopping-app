@@ -7,6 +7,7 @@ import { ItemDetailComponent } from './item-detail/item-detail.component';
 import { ItemEditComponent } from './item-edit/item-edit.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ItemCardComponent } from './item-list/item-card/item-card.component';
+import { SharedModule } from '../shared/modules/shared.module';
 
 const routes: Routes = [
   {
@@ -33,6 +34,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     FormsModule,
     ReactiveFormsModule,
+    SharedModule
   ],
 })
 export class ItemsModule {}

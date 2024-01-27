@@ -2,12 +2,8 @@ import { Injectable, OnInit } from '@angular/core';
 import {
   BehaviorSubject,
   Observable,
-  Subject,
   catchError,
-  filter,
-  find,
   map,
-  of,
   tap,
   throwError,
 } from 'rxjs';
@@ -63,6 +59,14 @@ export class ItemsService {
     );
   }
 
+  selectItem(id: number) : Observable<Item | undefined> {
+    return this.items$.pipe(
+      map(items => {
+        return items.find(item => item.id === id);
+      })
+    );
+  }
+
   selectItemById(id: number): Observable<Item | undefined> {
     return this.dataService.getItem(id).pipe(
       catchError((err) => {
@@ -97,5 +101,18 @@ export class ItemsService {
         }
         this.router.navigate(['/items', savedItem.id]);
       });
+  }
+
+  deleteItem(id: number) : void {
+    this.dataService.deleteItem(id)
+    .pipe(
+      map(itemDto => { return { ...itemDto } as Item })      
+    )
+    .subscribe(item => {
+      const items = this.itemsSubject.getValue();
+      const newItems = items.filter(item => item.id != id);
+      this.itemsSubject.next(newItems);
+    });
+    this.router.navigate(['/items']);
   }
 }

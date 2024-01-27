@@ -1,4 +1,5 @@
 import { CategoryDto } from "../categories/category.dto";
+import { ItemImageDto } from "./itemimage-dto";
 
 export interface ItemDto {
     id: number;
@@ -8,4 +9,5 @@ export interface ItemDto {
     category: CategoryDto;
     price: number;
     imagePath: string;
+    images: ItemImageDto[];
 }

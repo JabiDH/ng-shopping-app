@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoriesService } from '../../categories/categories.service';
 import { Observable, catchError, of, tap } from 'rxjs';
@@ -6,6 +6,7 @@ import { Category } from '../models/category.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Item } from '../models/item.model';
 import { ItemsService } from '../items.service';
+import { ItemImage } from '../models/itemimage.mode';
 
 export class ItemForm {
   constructor(
@@ -13,7 +14,8 @@ export class ItemForm {
     public name: string | null = null,
     public description: string | null = null,
     public price: number | null = null,
-    public imagePath: string | null = null
+    public imagePath: string | null = null,
+    public images: ItemImage[] | null = null
   ) {}
 }
 
@@ -21,7 +23,6 @@ export class ItemForm {
   selector: 'app-item-edit',
   templateUrl: './item-edit.component.html',
   styleUrl: './item-edit.component.css',
-  //changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemEditComponent implements OnInit {
   form: FormGroup;
@@ -63,24 +64,17 @@ export class ItemEditComponent implements OnInit {
   }
 
   initForm() {
-    let images: FormArray = this.fb.array([]);
+    let imagesFormArray: FormArray = this.fb.array([]);
 
     if (this.isEditMode) {
-      const imgPathes = this.itemForm?.imagePath?.split(';');      
-      imgPathes?.forEach((path, index) => {
-        const required = index === 0 ? null : Validators.required;
-        const group = this.fb.group({
-          path: this.fb.control(path, required),
+      this.itemForm?.images?.forEach((itemImg) => {
+        const imgCtrl = this.fb.group({
+          path: this.fb.control(itemImg.path),
         });
-        images.push(group);
+        imagesFormArray.push(imgCtrl);
       });
-      console.log('init form - edit mode -> ', images);
-    } else {
-      let imagesCtrls = this.fb.group({
-        path: this.fb.control(''),
-      });
-      images.push(imagesCtrls);
-    }
+      console.log('init form - edit mode -> ', imagesFormArray);
+    } 
 
     console.log('init form -> ', this.itemForm);
     this.form = this.fb.group({
@@ -95,7 +89,10 @@ export class ItemEditComponent implements OnInit {
       description: this.fb.control(this.itemForm?.description, [
         Validators.maxLength(1000),
       ]),
-      images: images,
+      imagePath: this.fb.control(this.itemForm.imagePath, [
+        Validators.required,
+      ]),
+      images: imagesFormArray,
     });
   }
 
@@ -122,11 +119,8 @@ export class ItemEditComponent implements OnInit {
     itemToSave.name = this.form.get('name')?.value;
     itemToSave.price = this.form.get('price')?.value;
     itemToSave.description = this.form.get('description')?.value;
-
-    if (this.imagesFormArray && this.imagesFormArray.controls.length > 0) {
-      const images = this.imagesFormArray.value as [{ path: string }];
-      itemToSave.imagePath = images.map((image) => image.path).join(';');
-    }
+    itemToSave.imagePath = this.form.get('imagePath')?.value;
+    itemToSave.images = this.imagesFormArray.value
 
     console.log('Item to Save -> ', itemToSave);
 
@@ -141,6 +135,8 @@ export class ItemEditComponent implements OnInit {
         return;
       }
     }
-    this.router.navigate(['items']);
+    this.itemId
+      ? this.router.navigate(['items', this.itemId])
+      : this.router.navigate(['items']);
   }
 }

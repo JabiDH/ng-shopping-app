@@ -1,15 +1,24 @@
 <div class="row">
   <div class="col-xs-12">
-    <button (click)="onEditItem()" class="btn btn-default pull-right">
-      Edit Item
-    </button>
+    <div appDropdown class="btn-group btn-right-align">
+      <button type="button" class="btn btn-default dropdown-toggle">
+        Manage Item<span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a style="cursor: pointer" (click)="onEditItem()">Edit Item</a></li>
+        <li>
+          <a style="cursor: pointer" (click)="onDeleteItem()">Delete Item</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
-<div class="row" *ngIf="item$ | async as item">
+
+<div class="row" *ngIf="item">
   <div class="col-xs-12 text-center">
     <img [src]="item.imagePath" alt="Image" style="height: 300px" />
   </div>
-  <div class="col-xs-12">
+  <div class="col-xs-12" *ngIf="item.category">
     <a href="#"> {{ item.category.name }}</a>
   </div>
   <div class="col-xs-12">
@@ -20,5 +29,10 @@
   </div>
   <div class="col-xs-12">
     <p>{{ item.description }}</p>
+  </div>
+  <div class="row" *ngIf="getItemImages">
+    <div class="col-xs-12">
+      <app-image-slideshow [images]="getItemImages"></app-image-slideshow>
+    </div>
   </div>
 </div>

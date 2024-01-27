@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="categories$ | async"> 
+<form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="categories$ | async">
   <div class="row pull-right">
     <div class="col-xs-12">
       <button type="button" class="btn btn-danger" (click)="onCancel()">
@@ -74,37 +74,42 @@
     </div>
   </div>
 
-  <!-- <div class="form-group">
-    <label for="imagePath">Image Url</label>
-    <input
-      class="form-control"
-      type="text"
-      id="imagePath"
-      name="imagePath"
-      formControlName="imagePath"
-      #imagePath
-    />
-  </div>
   <div class="row">
     <div class="col-xs-12">
-      <img
-        *ngIf="imagePath.value"
-        [src]="imagePath.value"
-        alt=""
-        class="img-responsive"
-        style="height: 100px"
-      />
+      <div class="row">
+        <div class="col-xs-9 form-group">
+          <label for="imagePath">Main Image Url</label>
+          <input
+            class="form-control"
+            type="text"
+            id="imagePath"
+            name="imagePath"
+            formControlName="imagePath"
+            #imagePath
+          />
+        </div>
+        <div class="col-xs-2 form-group">
+          <img
+            *ngIf="imagePath.value"
+            [src]="imagePath.value"
+            alt=""
+            class="img-responsive"
+            style="height: 50px"
+          />
+        </div>
+      </div>
     </div>
-  </div> -->
+  </div>
 
   <div class="row">
     <div class="col-xs-12" formArrayName="images">
       <label for="imagePath">Image Url(s)</label>
-      <div class="row"
+      <div
+        class="row"
         *ngFor="let imgControl of imagesFormArray.controls; let i = index"
         [formGroupName]="i"
       >
-        <div class="col-xs-9">
+        <div class="col-xs-9 form-group">
           <input
             type="text"
             class="form-control"
@@ -112,34 +117,27 @@
             #path
           />
         </div>
-        <div class="col-xs-2">
+        <div class="col-xs-2 form-group">
           <img [src]="path.value" alt="" style="height: 50px" />
         </div>
-        <div class="col-xs-1">
+        <div class="col-xs-1 form-group">
           <button
             type="button"
             class="btn btn-danger"
             (click)="onDeleteImage(i)"
-            *ngIf="i > 0"
           >
             X
           </button>
         </div>
       </div>
 
-      <div class="row" style="padding-top: 15px;">
+      <div class="row">
         <div class="col-xs-12">
-          <button
-            type="button"
-            class="btn btn-default"
-            (click)="onAddImage()"
-          >
+          <button type="button" class="btn btn-default" (click)="onAddImage()">
             Add Image
           </button>
         </div>
       </div>
-
     </div>
   </div>
-
 </form>

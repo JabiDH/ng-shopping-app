@@ -1,4 +1,5 @@
 import { Category } from "./category.model";
+import { ItemImage } from "./itemimage.mode";
 
 export interface Item {
     id: number;
@@ -8,4 +9,5 @@ export interface Item {
     category: Category;
     price: number;
     imagePath: string;
+    images: ItemImage[];
 }
