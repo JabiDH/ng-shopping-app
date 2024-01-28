@@ -73,10 +73,8 @@ export class ItemEditComponent implements OnInit {
         });
         imagesFormArray.push(imgCtrl);
       });
-      console.log('init form - edit mode -> ', imagesFormArray);
     } 
 
-    console.log('init form -> ', this.itemForm);
     this.form = this.fb.group({
       category: this.fb.control(this.itemForm?.categoryId, [
         Validators.required,
@@ -121,8 +119,6 @@ export class ItemEditComponent implements OnInit {
     itemToSave.description = this.form.get('description')?.value;
     itemToSave.imagePath = this.form.get('imagePath')?.value;
     itemToSave.images = this.imagesFormArray.value
-
-    console.log('Item to Save -> ', itemToSave);
 
     if (this.form.valid) {
       this.itemsService.saveItem(this.itemId, itemToSave);

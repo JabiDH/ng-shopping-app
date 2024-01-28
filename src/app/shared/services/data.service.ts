@@ -23,7 +23,6 @@ export class DataService {
       )
       .pipe(
         catchError(throwError),
-        tap((res) => console.log('GetAllItems -> ', res)),
         map((res) => res.items)
       );
   }
@@ -36,7 +35,6 @@ export class DataService {
       )
       .pipe(
         catchError(throwError),
-        tap((res) => console.log('GetAllCategories -> ', res)),
         map((res) => res.categories)
       );
   }
@@ -49,7 +47,6 @@ export class DataService {
       )
       .pipe(
         catchError(throwError),
-        tap((res) => console.log(`GetItem/${id} ->`, res)),
         map((res) => res.item)
       );
   }
@@ -69,9 +66,6 @@ export class DataService {
 
     return upsert.pipe(
       catchError(throwError),
-      tap((res) => {
-        console.log(`UpsertItem/${id} -> `, res);
-      }),
       map((res) => res.item)
     );
   }
@@ -82,9 +76,6 @@ export class DataService {
       .delete<ItemResponseDto>(`${environment.shoppingCartApiUrl}/item/DeleteItem/${id}`)
       .pipe(
         catchError(throwError),
-        tap((res) => {
-          console.log(`DeleteItem/${id} -> `, res);
-        }),
         map((res) => res.item)
       );
   }

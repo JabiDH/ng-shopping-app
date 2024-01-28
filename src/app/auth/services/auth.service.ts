@@ -87,7 +87,7 @@ export class AuthService {
   }
 
   private handleError = (error: HttpErrorResponse) => {
-    let errorMessage = 'Unhandle exception while registering the user.';
+    let errorMessage = 'Server is not responding. Please try again!';
     if (error && error.error) {
       if (error.error.errors) {
         const validationErrors = error.error.errors;
@@ -111,7 +111,6 @@ export class AuthService {
 
   private handleLogin = (res: LoginResponseDto) => {
     if (res) {
-      console.log('handle login -> ', res);
       const expireDate = new Date(
         new Date().getTime() + res.expireOnInSeconds * 1000
       );

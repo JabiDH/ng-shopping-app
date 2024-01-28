@@ -40,9 +40,7 @@ export class ItemListComponent implements OnInit {
     }    
     
     // Filtering items
-    console.log('calling item service filterItems() -> ', this.selectedCatIds);
     this.items$ = this.itemsService.filterItems(this.searchTerm, this.selectedCatIds);    
-    console.log('selected cats -> ', this.selectedCatIds);
   }
 
   onNewItem() {

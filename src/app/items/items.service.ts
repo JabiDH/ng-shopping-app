@@ -24,12 +24,10 @@ export class ItemsService {
   }
 
   private loadAllItems(): void {
-    console.log('ItemsService -> loadData()');
     this.dataService
       .getAllItems()
       .pipe(
-        catchError(throwError),
-        tap((res) => console.log('GetAllItems -> ', res))
+        catchError(throwError)
       )
       .subscribe((items) => this.itemsSubject.next(items));
   }
@@ -43,7 +41,6 @@ export class ItemsService {
       map((items) => {
         if (catIds.length > 0) {
           items = items.filter((item) => catIds.includes(item.categoryId));
-          console.log('filterItems() -> ', items);
         }
 
         return items.filter(
@@ -74,8 +71,7 @@ export class ItemsService {
           this.router.navigate(['/items']);
         }
         return throwError(() => err);
-      }),
-      tap((res) => console.log('SelectItemById -> ', res))
+      })
     );
   }
 
@@ -90,7 +86,6 @@ export class ItemsService {
         if (index === -1) {
           const newItems = [...items, savedItem];
           this.itemsSubject.next(newItems as Item[]);
-          console.log('newItems -> ', newItems);
         } else {
           const newItems = items.slice(0);
           newItems[index] = {

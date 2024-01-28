@@ -42,8 +42,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
 
     onSubmit(): void {        
-        console.log('Reg Form Value -> ', this.regForm.value);
-        
         if(!this.regForm.valid) {
             return;
         }
@@ -57,11 +55,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
         this.regSub = this.auth.register(request)
         .subscribe(res => {
-            console.log('Reg response -> ', res);
             this.isLoading = false;
             this.error = null;
         }, errorRes => {
-            console.log('Reg Error response -> ', errorRes);
             this.isLoading = false;
             this.error = errorRes;
         })

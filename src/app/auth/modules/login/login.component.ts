@@ -27,8 +27,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initEmailFromQueryParams();
     this.initloginForm();
-    console.log('email -> ', this.email);
-    console.log('Reg Form Value -> ', this.loginForm.value);
   }
 
   private initloginForm(): void {
@@ -41,8 +39,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {    
-    console.log('Reg Form Value -> ', this.loginForm.value);
-
     if (!this.loginForm.valid) {
       return;
     }
