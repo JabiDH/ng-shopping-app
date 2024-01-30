@@ -1,0 +1,71 @@
+<form
+  #form="ngForm"
+  (ngSubmit)="onSubmit()"
+  *ngIf="category$ | async as category"
+>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          class="form-control"
+          [(ngModel)]="category.name"
+          required
+        />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input
+          id="description"
+          name="description"
+          type="text"
+          class="form-control"
+          [(ngModel)]="category.description"
+          required
+        />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label for="imagePath">Image Url</label>
+        <input
+          id="imagePath"
+          name="imagePath"
+          type="text"
+          class="form-control"
+          [(ngModel)]="category.imagePath"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="category.imagePath">
+    <div class="col-xs-12">
+      <img [src]="category.imagePath" alt="image" style="max-height: 300px" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12" style="padding-top: 10px;">
+      <div class="form-group">
+        <button
+        class="btn btn-success"
+        [disabled]="!form.valid || !form.touched"
+        type="submit"
+      >
+        Save
+      </button>
+      <button (click)="onCancel()" class="btn btn-danger" type="button">
+        Cancel
+      </button>
+      </div>
+    </div>
+  </div>
+</form>

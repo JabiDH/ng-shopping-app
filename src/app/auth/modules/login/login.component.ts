@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService, PasswordPattern } from '../../services/auth.service';
-import { LoginRequestDto } from './login-request.dto';
+import { LoginRequestDto } from '../../dtos/login-request.dto';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, Subscription, delay, of } from 'rxjs';
-import { LoginResponseDto } from './login-response.dto';
+import { LoginResponseDto } from '../../dtos/login-response.dto';
 
 @Component({
   selector: 'app-login',

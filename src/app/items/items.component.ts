@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ItemsService } from './items.service';
-import { Observable, Subscription, catchError, tap } from 'rxjs';
-import { Item } from './models/item.model';
 
 @Component({
   selector: 'app-items',
@@ -10,7 +7,7 @@ import { Item } from './models/item.model';
 })
 export class ItemsComponent implements OnInit {
 
-  constructor(private itemsService: ItemsService){
+  constructor(){
   }
   
   ngOnInit(): void {

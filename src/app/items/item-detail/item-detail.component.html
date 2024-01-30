@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col-xs-12">
     <div appDropdown class="btn-group btn-right-align">
-      <button type="button" class="btn btn-default dropdown-toggle">
-        Manage Item<span class="caret"></span>
+      <button type="button" class="btn btn-primary dropdown-toggle">
+        Manage&nbsp;<span class="caret"></span>
       </button>
       <ul class="dropdown-menu">
         <li><a style="cursor: pointer" (click)="onEditItem()">Edit Item</a></li>
@@ -19,7 +19,7 @@
     <img [src]="item.imagePath" alt="Image" style="height: 300px" />
   </div>
   <div class="col-xs-12" *ngIf="item.category">
-    <a href="#"> {{ item.category.name }}</a>
+    <a [routerLink]="['/categories', item.category.id]"> {{ item.category.name }}</a>
   </div>
   <div class="col-xs-12">
     <h3>

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService, PasswordPattern } from "../../services/auth.service";
-import { RegisterRequestDto } from "./register-request.dto";
+import { RegisterRequestDto } from "../../dtos/register-request.dto";
 import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
 

@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit } from '@angular/core';
 import { Observable, filter, map } from 'rxjs';
 import { ItemsService } from '../items.service';
 import { Item } from '../models/item.model';
-import { Category } from '../models/category.model';
+import { Category } from '../../categories/models/category.model';
 import { CategoriesService } from '../../categories/categories.service';
 import { ActivatedRoute, Router } from '@angular/router';
 

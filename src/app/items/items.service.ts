@@ -107,7 +107,7 @@ export class ItemsService {
       const items = this.itemsSubject.getValue();
       const newItems = items.filter(item => item.id != id);
       this.itemsSubject.next(newItems);
+      this.router.navigate(['/items']);
     });
-    this.router.navigate(['/items']);
   }
 }

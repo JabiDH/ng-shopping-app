@@ -30,6 +30,9 @@
             <li routerLinkActive="active" *ngIf="isAuthenticated">
               <a routerLink="/items">Items</a>
             </li>
+            <li routerLinkActive="active" *ngIf="isAuthenticated">
+              <a routerLink="/categories">Categories</a>
+            </li>
           </ul>
           <ul class="nav navbar-nav navbar-right" *ngIf="isAuthenticated">
             <li>
@@ -43,7 +46,6 @@
               </a>
               <ul class="dropdown-menu">                
                 <li><a (click)="onLogout()" style="cursor: pointer;">Logout</a></li>
-                <li><a style="cursor: pointer;">Fetch Data</a></li>
               </ul>
             </li>
           </ul>

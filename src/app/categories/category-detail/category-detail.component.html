@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div appDropdown class="btn-group btn-right-align">
+      <button type="button" class="btn btn-primary dropdown-toggle">
+        Manage&nbsp;<span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <a style="cursor: pointer" (click)="onEditCategory()"
+            >Edit Category</a
+          >
+        </li>
+        <li>
+          <a style="cursor: pointer" (click)="onDeleteCategory()"
+            >Delete Category</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="category$ | async as category">
+  <div class="col-xs-12 text-center" *ngIf="category.imagePath">
+    <img [src]="category.imagePath" alt="Image" style="height: 300px" />
+  </div>
+  <div class="col-xs-12">
+    <h3>
+      {{ category.name }}
+    </h3>
+  </div>
+  <div class="col-xs-12">
+    <p>{{ category.description }}</p>
+  </div>
+</div>

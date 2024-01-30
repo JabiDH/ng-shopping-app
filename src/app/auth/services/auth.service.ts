@@ -15,10 +15,10 @@ import {
   timer,
 } from 'rxjs';
 import { Router } from '@angular/router';
-import { RegisterRequestDto } from '../modules/register/register-request.dto';
-import { RegisterResponseDto } from '../modules/register/register-response.dto';
-import { LoginResponseDto } from '../modules/login/login-response.dto';
-import { LoginRequestDto } from '../modules/login/login-request.dto';
+import { RegisterRequestDto } from '../dtos/register-request.dto';
+import { RegisterResponseDto } from '../dtos/register-response.dto';
+import { LoginResponseDto } from '../dtos/login-response.dto';
+import { LoginRequestDto } from '../dtos/login-request.dto';
 import { User } from '../models/user.model';
 import { environment } from '../../../environments/environment';
 

@@ -1,4 +1,4 @@
-import { Category } from "./category.model";
+import { Category } from "../../categories/models/category.model";
 import { ItemImage } from "./itemimage.mode";
 
 export interface Item {

@@ -8,7 +8,8 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'register', loadChildren: () => import('./auth/modules/register/register.module').then(x => x.RegisterModule) },
   { path: 'login', loadChildren: () => import('./auth/modules/login/login.module').then(x => x.LoginModule) },
-  { path: 'items', loadChildren: () => import('./items/items.module').then(x => x.ItemsModule) }
+  { path: 'items', loadChildren: () => import('./items/items.module').then(x => x.ItemsModule) },
+  { path: 'categories', loadChildren: () => import('./categories/categories.module').then(x => x.CategoriesModule) },
 ];
 
 @NgModule({

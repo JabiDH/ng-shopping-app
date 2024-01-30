@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoriesService } from '../../categories/categories.service';
 import { Observable, catchError, of, tap } from 'rxjs';
-import { Category } from '../models/category.model';
+import { Category } from '../../categories/models/category.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Item } from '../models/item.model';
 import { ItemsService } from '../items.service';
@@ -111,16 +111,15 @@ export class ItemEditComponent implements OnInit {
     this.form.markAsTouched();
   }
 
-  onSubmit() {
-    let itemToSave = {} as Item;
-    itemToSave.categoryId = this.form.get('category')?.value;
-    itemToSave.name = this.form.get('name')?.value;
-    itemToSave.price = this.form.get('price')?.value;
-    itemToSave.description = this.form.get('description')?.value;
-    itemToSave.imagePath = this.form.get('imagePath')?.value;
-    itemToSave.images = this.imagesFormArray.value
-
+  onSubmit() {    
     if (this.form.valid) {
+      let itemToSave = {} as Item;
+      itemToSave.categoryId = this.form.get('category')?.value;
+      itemToSave.name = this.form.get('name')?.value;
+      itemToSave.price = this.form.get('price')?.value;
+      itemToSave.description = this.form.get('description')?.value;
+      itemToSave.imagePath = this.form.get('imagePath')?.value;
+      itemToSave.images = this.imagesFormArray.value
       this.itemsService.saveItem(this.itemId, itemToSave);
     }
   }

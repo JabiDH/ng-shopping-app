@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-xs-12">
+    <button class="btn btn-success" (click)="onNewCategory()">
+      New Category
+    </button>
+  </div>
+
+  <div class="col-xs-12" style="padding-top: 10px; padding-bottom: 20px">
+    <input
+      class="form-control"
+      [(ngModel)]="searchTerm"
+      placeholder="Type to Filter"
+      (input)="filterCategories()"
+    />
+  </div>
+
+  <div *ngFor="let category of categories$ | async">
+    <app-category-card [category]="category"></app-category-card>
+  </div>
+</div>
