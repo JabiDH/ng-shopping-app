@@ -15,6 +15,7 @@ const routes: Routes = [
     path: '',
     component: CategoriesComponent,
     canActivate: [AuthGuard],
+    data: { requiredRole: 'admin' },
     children: [
       { path: 'new', component: CategoryEditComponent },
       { path: ':id', component: CategoryDetailComponent },

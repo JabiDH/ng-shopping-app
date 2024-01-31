@@ -55,7 +55,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       (res: LoginResponseDto) => {
         this.isLoading = false;
         this.error = null;
-        this.router.navigate(['/items']);
       }, 
       (errorRes: string) => {
         this.error = errorRes;

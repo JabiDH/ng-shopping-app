@@ -15,6 +15,7 @@ const routes: Routes = [
     path: '',
     component: ItemsComponent,
     canActivate: [AuthGuard],
+    data: { requiredRole: 'admin' },
     children: [
       { path: 'new', component: ItemEditComponent },
       { path: ':id', component: ItemDetailComponent },

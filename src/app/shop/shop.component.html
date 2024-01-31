@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="row" *ngFor="let item of items$ | async" style="padding: 15px;">
+        <div class="col-xs-3">
+            <!-- <app-image-slideshow [images]="getItemImages(item)" style="height: 125px; width: auto;"></app-image-slideshow> -->
+            <img [src]="item.imagePath" alt="image" style="height: 125px; width: auto;">
+        </div>
+        <div class="col-xs-6">
+            <h3>{{ item.name }}</h3>
+            <p>{{ item.description }}</p>
+        </div>
+        <div class="col-xs-3">
+            <h3>{{ item.price | currency }}</h3>
+            <button class="btn btn-default" style="background-color: yellow; font-weight: bold;">Add to Cart</button>
+        </div>       
+    </div>  
+</div>
+

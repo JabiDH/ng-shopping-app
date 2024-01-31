@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { HomeComponent } from './home/home.component';
+import { ShopComponent } from './shop/shop.component';
 import { HeaderComponent } from './header/header.component';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from './shared/modules/shared.module';
@@ -14,7 +14,7 @@ import { LoggingInterceptor } from './shared/services/logging.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    ShopComponent,
     HeaderComponent
   ],
   imports: [

@@ -21,6 +21,7 @@ import { LoginResponseDto } from '../dtos/login-response.dto';
 import { LoginRequestDto } from '../dtos/login-request.dto';
 import { User } from '../models/user.model';
 import { environment } from '../../../environments/environment';
+import { PermissionService } from '../../shared/services/permission.service';
 
 export const PasswordPattern =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -30,26 +31,26 @@ export class AuthService {
   loggedInUser = new BehaviorSubject<User | null>(null);
   private tokenExpirationTimer: any;
 
-  constructor(private http: HttpClient, private router: Router) {
-
-  }
+  constructor(
+    private http: HttpClient, 
+    private router: Router,
+    private permissionService: PermissionService) {}
 
   register(registerDto: RegisterRequestDto): Observable<RegisterResponseDto> {
     const registerEndpoint = `${environment.shoppingCartApiUrl}/auth/register`;
     return this.http
       .post<RegisterResponseDto>(registerEndpoint, registerDto)
-      .pipe(        
+      .pipe(
         catchError(this.handleError),
-        tap((res) => this.handleRegister(res)),
+        tap((res) => this.handleRegister(res))
       );
   }
 
   login(loginDto: LoginRequestDto): Observable<LoginResponseDto> {
-    const loginEndpoint = `${environment.shoppingCartApiUrl}/auth/login`;    
-    return this.http.post<LoginResponseDto>(loginEndpoint, loginDto).pipe(
-      catchError(this.handleError),
-      tap(this.handleLogin),
-    );
+    const loginEndpoint = `${environment.shoppingCartApiUrl}/auth/login`;
+    return this.http
+      .post<LoginResponseDto>(loginEndpoint, loginDto)
+      .pipe(catchError(this.handleError), tap(this.handleLogin));
   }
 
   logout() {
@@ -100,7 +101,7 @@ export class AuthService {
         errorMessage = error.error.error;
       }
     }
-    return throwError(errorMessage);
+    return throwError(() => errorMessage);
   };
 
   private handleRegister = (res: RegisterResponseDto) => {
@@ -118,7 +119,11 @@ export class AuthService {
       this.loggedInUser.next(userData);
       this.autoLogout(res.expireOnInSeconds * 1000);
       localStorage.setItem('userData', JSON.stringify(userData));
-      this.router.navigate(['/home']);
+      this.permissionService.hasPermission(res.email, 'admin').subscribe(
+        hasPermission => {
+          hasPermission? this.router.navigate(['/items']) : this.router.navigate(['/shop']);
+        }
+      )
     }
   };
 
