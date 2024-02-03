@@ -10,17 +10,22 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from './shared/modules/shared.module';
 import { AuthInterceptor } from './auth/services/auth.interceptor';
 import { LoggingInterceptor } from './shared/services/logging.interceptor';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     ShopComponent,
-    HeaderComponent
+    HeaderComponent,
+    ShoppingCartComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule, 
     HttpClientModule,
+    FormsModule,
     SharedModule
   ],
   providers: [

@@ -37,9 +37,12 @@
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right" *ngIf="isAuthenticated">
-            <li>
-              <a style="cursor: pointer" *ngIf="isAuthenticated && !isAdmin">
+            <li routerLinkActive="active">
+              <a style="cursor: pointer" *ngIf="isAuthenticated && !isAdmin" routerLink="/shoppingcart">
                 <i class="fas fa-shopping-cart"></i>
+                <span style="position: absolute; top: 0; right: 0; background-color: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px;">
+                  {{ cartCount$ | async }}
+                </span>
               </a>
             </li>
             <li class="dropdown" appDropdown>

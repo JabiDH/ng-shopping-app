@@ -27,7 +27,7 @@
   border-radius: 3px 3px 3px 3px;
   user-select: none;
   background-color: #000000;
-  opacity: .8;
+  opacity: .5;
 }
 
 /* Position the "next button" to the right */
@@ -84,6 +84,6 @@
 }
 
 @keyframes fade {
-  from {opacity: .4}
+  from {opacity: .0}
   to {opacity: 1}
 }

@@ -12,7 +12,8 @@ import { ImageSlideshowComponent } from "../image-slideshow/image-slideshow.comp
         ImageSlideshowComponent
     ],
     imports:[
-        CommonModule,      
+        CommonModule,
+        FormsModule,      
         ReactiveFormsModule
     ],
     exports: [

@@ -1,9 +1,8 @@
 <div class="slideshow-container">
   <div *ngFor="let image of images; let i = index" class="mySlides text-center">
     <div class="numbertext">{{ i + 1 }} / {{ images.length }}</div>
-    <img [src]="image" style="height: 400px;" />
+    <img [src]="image" [ngStyle]="style" />
   </div>
-
   <a class="prev" (click)="plusSlides(-1)">❮</a>
   <a class="next" (click)="plusSlides(1)">❯</a>
 </div>

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../auth/services/auth.service';
 import { Observable, Subscription, of } from 'rxjs';
 import { PermissionService } from '../shared/services/permission.service';
+import { ShoppingCartService } from '../shopping-cart/shopping-cart.service';
 
 @Component({
   selector: 'app-header',
@@ -13,10 +14,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isAuthenticated: boolean = false;
   isAdmin: boolean = false;
   private userSubscription: Subscription = new Subscription();
+  cartCount$: Observable<number> = of();
 
   constructor(
     private authService: AuthService,
-    private permissionService: PermissionService
+    private permissionService: PermissionService,
+    private shoppingCartService: ShoppingCartService
   ) {}
 
   ngOnInit(): void {
@@ -28,6 +31,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           .subscribe(hasAdminRole => this.isAdmin = hasAdminRole);
       }
     });
+    this.cartCount$ = this.shoppingCartService.selectItemsCount();
   }
 
   onLogout(): void {

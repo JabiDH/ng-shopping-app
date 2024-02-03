@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
+import { NgStyle } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2, input } from '@angular/core';
 
 @Component({
   selector: 'app-image-slideshow',
@@ -7,6 +8,7 @@ import { AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2 } from '
 })
 export class ImageSlideshowComponent implements AfterViewInit {
   @Input() images: string[] = [];
+  @Input() style = { height: '400px' };
   slideIndex = 1;
 
   constructor(private el: ElementRef, private renderer: Renderer2) {}

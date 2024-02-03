@@ -1,0 +1,138 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-10 col-md-offset-1">
+      <form (ngSubmit)="onSubmit()" #form="ngForm">
+        <table
+          class="table table-hover"
+          *ngIf="cart$ | async as cart; else emptyCart"
+        >
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th class="text-center">Price</th>
+              <th class="text-center">Total</th>
+              <th> </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cartItem of cart.cartItems; let i = index">
+              <td class="col-sm-8 col-md-6">
+                <div class="media">
+                  <a class="thumbnail pull-left" href="#">
+                    <img
+                      class="media-object"
+                      [src]="cartItem.item.imagePath"
+                      style="width: 72px; height: 72px"
+                    />
+                  </a>
+                  <div class="media-body" style="padding-left: 15px">
+                    <h4 class="media-heading">
+                      <a href="#">{{ cartItem.item.name }}</a>
+                    </h4>
+                    <h5 class="media-heading">
+                      {{ cartItem.item.description }}
+                    </h5>
+                    <!-- <span>Status: </span><span class="text-success"><strong>In Stock</strong></span> -->
+                  </div>
+                </div>
+              </td>
+              <td class="col-sm-1 col-md-1" style="text-align: center">
+                <input
+                  name="quantity_{{ i }}"
+                  type="number"
+                  class="form-control"
+                  [(ngModel)]="cartItem.quantity"
+                  required
+                  min="1"
+                  (change)="onQuantityChange(cartItem, i)"
+                />
+              </td>
+              <td class="col-sm-1 col-md-1 text-center">
+                <strong>{{ cartItem.item.price | currency }}</strong>
+              </td>
+              <td class="col-sm-1 col-md-1 text-center">
+                <strong>
+                  {{ cartItem.quantity > 0 ? (cartItem.item.price * cartItem.quantity | currency) : 'N/A' }}
+                </strong>
+              </td>
+              <td class="col-sm-1 col-md-1">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="onRemoveItem(cartItem)"
+                  [disabled]="disabledRemoves[i]"
+                >
+                  <span class="glyphicon glyphicon-remove"></span>&nbsp;Remove
+                </button>
+              </td>
+            </tr>
+
+            <tr>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td><h5>Subtotal</h5></td>
+              <td class="text-right">
+                <h5>
+                  <strong>{{ cart.subtotal | currency }}</strong>
+                </h5>
+              </td>
+            </tr>
+            <tr>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td><h5>Sale Tax</h5></td>
+              <td class="text-right">
+                <h5>
+                  <strong>{{ cart.salesTax | currency }}</strong>
+                </h5>
+              </td>
+            </tr>
+            <tr>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td><h3>Total</h3></td>
+              <td class="text-right">
+                <h3>
+                  <strong>{{ cart.total | currency }}</strong>
+                </h3>
+              </td>
+            </tr>
+            <tr>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+              <td>
+                <button type="button" class="btn btn-default" (click)="onContinueShopping()">
+                  <span class="glyphicon glyphicon-shopping-cart"></span
+                  >&nbsp;Continue Shopping
+                </button>
+              </td>
+              <td>
+                <button
+                  type="submit"
+                  class="btn btn-success"
+                  [disabled]="!form.valid"
+                >
+                  Checkout&nbsp;<span class="glyphicon glyphicon-play"></span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+      <ng-template #emptyCart>
+        <div class="row">
+          <div class="col-xs-12">
+            <h3 class="text-center">
+              Your shopping cart is empty. Please add item(s) to the cart.
+            </h3>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

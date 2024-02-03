@@ -8,6 +8,9 @@ import { CategoriesResponseDto } from '../dtos/categories/categories-response.dt
 import { ItemsResponseDto } from '../dtos/items/items-response.dts';
 import { ItemResponseDto } from '../dtos/items/item-response.dto';
 import { CategoryResponseDto } from '../dtos/categories/category-response.dto';
+import { CartItemDto } from '../dtos/cart-items/cart-item.dto';
+import { CartItemsResponseDto } from '../dtos/cart-items/cart-items-response.dto';
+import { CartItemsRequestDto } from '../dtos/cart-items/cart-items-request.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -95,7 +98,7 @@ export class DataService {
   }
 
   // Create or Update Category
-  upsertCategory(id: number, category: CategoryDto) : Observable<CategoryDto>{
+  upsertCategory(id: number, category: CategoryDto): Observable<CategoryDto> {
     const upsert =
       id === 0
         ? this.http.post<CategoryResponseDto>(
@@ -114,11 +117,52 @@ export class DataService {
   }
 
   // Delete a category
-  deleteCategory(id: number) : Observable<CategoryDto> {
-    return this.http.delete<CategoryResponseDto>(`${environment.shoppingCartApiUrl}/category/DeleteCategory/${id}`)
-    .pipe(
-      catchError(throwError),
-      map(res => res.category)
-    )
+  deleteCategory(id: number): Observable<CategoryDto> {
+    return this.http
+      .delete<CategoryResponseDto>(
+        `${environment.shoppingCartApiUrl}/category/DeleteCategory/${id}`
+      )
+      .pipe(
+        catchError(throwError),
+        map((res) => res.category)
+      );
+  }
+
+  // Get cart items
+  getCartItems(email: string): Observable<CartItemsResponseDto> {
+    return this.http
+      .get<CartItemsResponseDto>(
+        `${environment.shoppingCartApiUrl}/CartItem/GetCartItems/${email}`
+      )
+      .pipe(
+        catchError(throwError),
+        map((res) => res)
+      );
+  }
+
+  // Save cart item(s)
+  saveCartItems(request: CartItemsRequestDto): Observable<CartItemsResponseDto> {
+    return this.http
+      .post<CartItemsResponseDto>(
+        `${environment.shoppingCartApiUrl}/CartItem/SaveCartItems`,
+        request
+      )
+      .pipe(
+        catchError(throwError),
+        map((res) => res)
+      );
+  }
+
+  // Remove cart item(s)
+  removeCartItems(request: CartItemsRequestDto): Observable<CartItemsResponseDto> {
+    return this.http
+      .post<CartItemsResponseDto>(
+        `${environment.shoppingCartApiUrl}/CartItem/RemoveCartItems`,
+        request
+      )
+      .pipe(
+        catchError(throwError),
+        map((res) => res)
+      );
   }
 }
