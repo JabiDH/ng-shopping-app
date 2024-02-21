@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService, PasswordPattern } from '../../services/auth.service';
 import { LoginRequestDto } from '../../dtos/login-request.dto';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable, Subscription, delay, of } from 'rxjs';
+import { Observable, Subscription, delay, of, take } from 'rxjs';
 import { LoginResponseDto } from '../../dtos/login-response.dto';
 
 @Component({
@@ -51,16 +51,16 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.isLoading = true;   
 
-    this.loginSub = this.authService.login(request).subscribe(
-      (res: LoginResponseDto) => {
+    this.loginSub = this.authService.login(request).pipe(take(1)).subscribe({
+      next : () => {
         this.isLoading = false;
         this.error = null;
-      }, 
-      (errorRes: string) => {
-        this.error = errorRes;
+      },
+      error: (err) => {
+        this.error = err;
         this.isLoading = false;
       }
-    );
+    });
   }
   
   private initEmailFromQueryParams() : void {

@@ -33,7 +33,7 @@ export class ShopComponent implements OnInit {
     { 
       this.shoppingCartService.addToCart(item);
       this.isLoading[index] = false;
-    }, 1000);
+    }, 500);
 
   }
 

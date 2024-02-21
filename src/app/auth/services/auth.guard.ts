@@ -7,7 +7,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Observable, concatMap, map, tap } from 'rxjs';
+import { Observable, concatMap, map, of, switchMap, take, tap, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 import { PermissionService } from '../../shared/services/permission.service';
 
@@ -30,16 +30,16 @@ export class AuthGuard implements CanActivate {
     | boolean
     | UrlTree
     | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree> {    
-    const user$ = this.authService.loggedInUser;
+    | Promise<boolean | UrlTree> {        
+    const user$ = this.authService.loggedInUser;    
     return user$
       .pipe(
-        concatMap((user) =>
-          this.permissionService.hasPermission(
+        switchMap(user =>
+          user? this.permissionService.hasPermission(
             user?.email as string,
             route.data['requiredRole']
-          ) || this.router.createUrlTree(['/login'])
+          ) : of(this.router.createUrlTree(['/login']))          
         )
-      )
+      );      
   }
 }

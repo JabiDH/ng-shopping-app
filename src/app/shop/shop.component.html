@@ -17,6 +17,7 @@
         class="btn btn-default"
         style="background-color: rgb(44, 138, 247); font-weight: bold; width: 120px;"
         (click)="onAddToCart(item, i)"
+        [disabled]="isLoading[i]"
       >
         {{ isLoading[i] ? "" : "Add to Cart" }}
         <app-loading-spinner
