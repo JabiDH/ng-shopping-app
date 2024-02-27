@@ -9,6 +9,12 @@ import { User } from '../auth/models/user.model';
 import { CartItemDto } from '../shared/dtos/cart-items/cart-item.dto';
 import { Cart } from './models/cart.model';
 import { CartItemsResponseDto } from '../shared/dtos/cart-items/cart-items-response.dto';
+import { OrderStatus } from '../shared/enums/order-status.enum';
+import { OrderRequestDto } from '../shared/dtos/orders/order-request.dto';
+import { OrderItemDto } from '../shared/dtos/order-items/order-item.dto';
+import { OrderDto } from '../shared/dtos/orders/order.dto';
+import { UserOrdersService } from '../account/services/user-orders.service';
+import { TAX_RATE } from '../shared/models/constants.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +26,8 @@ export class ShoppingCartService {
 
   constructor(
     private dataService: DataService,
-    private authService: AuthService
+    private authService: AuthService, 
+    private userOrdersService: UserOrdersService
   ) {
     this.loadCartItems();
   }
@@ -49,8 +56,7 @@ export class ShoppingCartService {
           count += items.quantity
         });
         return count;
-      }),
-      tap(count => console.log('Items count -> ', count))
+      })
     );
   }
 
@@ -77,8 +83,30 @@ export class ShoppingCartService {
     this.removeCartItems([cartItem]);
   }
 
+  clearCart(): void {
+    this.removeCartItems([], true);
+  }
+
   updateCartItemQuantity(cartItem: CartItem) {
     this.saveCartItems([cartItem]);
+  }
+  
+  placeOrder(cartItems: CartItem[]) : void {
+    const order = {
+      email: this.user.email,
+      status: OrderStatus.Created,
+      taxRate: TAX_RATE,
+      orderItems: cartItems.map((cartItem) => {
+        return {
+          itemId: cartItem.itemId,
+          price: cartItem.item.price,
+          taxRate: TAX_RATE,
+          quantity: cartItem.quantity
+        } as OrderItemDto
+      })
+    } as OrderDto;
+
+    this.userOrdersService.createUserOrder(order);
   }
 
   private saveCartItems(cartItems: CartItem[]): void {
@@ -97,12 +125,13 @@ export class ShoppingCartService {
       });
   }
 
-  private removeCartItems(cartItems: CartItem[]): void {
+  private removeCartItems(cartItems: CartItem[], clearAll: boolean = false): void {
     const request = {
       email: this.user.email,
       cartItems: cartItems.map((cartItem) => {
         return { ...cartItem } as CartItemDto;
       }),
+      clearAll: clearAll
     } as CartItemsRequestDto;
 
     this.dataService

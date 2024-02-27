@@ -104,11 +104,16 @@
             <tr>
               <td> </td>
               <td> </td>
-              <td> </td>
+              <td>
+                <button type="button" class="btn btn-danger" (click)="onClearCart()">
+                  <span class="glyphicon glyphicon-trash"></span>
+                  &nbsp;Clear Cart
+                </button>
+              </td>
               <td>
                 <button type="button" class="btn btn-default" (click)="onContinueShopping()">
-                  <span class="glyphicon glyphicon-shopping-cart"></span
-                  >&nbsp;Continue Shopping
+                  <span class="glyphicon glyphicon-shopping-cart"></span>
+                  &nbsp;Continue Shopping
                 </button>
               </td>
               <td>
@@ -117,7 +122,7 @@
                   class="btn btn-success"
                   [disabled]="!form.valid"
                 >
-                  Checkout&nbsp;<span class="glyphicon glyphicon-play"></span>
+                  Place Order&nbsp;<span class="glyphicon glyphicon-play"></span>
                 </button>
               </td>
             </tr>

@@ -15,6 +15,7 @@ export class ShoppingCartComponent implements OnInit {
   cart$: Observable<Cart | null> = of(null);
   @ViewChild('form') cartForm: NgForm = {} as NgForm;
   disabledRemoves: boolean[] = [];
+  cart: Cart | null = {} as Cart;
 
   constructor(
     private shoppingCartService: ShoppingCartService,
@@ -22,6 +23,7 @@ export class ShoppingCartComponent implements OnInit {
 
   ngOnInit(): void {
     this.cart$ = this.shoppingCartService.selectCartItems();    
+    this.cart$.subscribe(c => this.cart = c);
   }
 
   onQuantityChange(cartItem: CartItem, index: number) {
@@ -39,7 +41,16 @@ export class ShoppingCartComponent implements OnInit {
     this.router.navigate(['/shop']);
   }
 
+  onClearCart() {
+    if(confirm("Are you sure you want to proceed with clearing your cart?")) {
+      this.shoppingCartService.clearCart();
+    }
+  }
+
   onSubmit() {
-    
+    if(this.cartForm && this.cartForm.valid) {      
+      this.shoppingCartService.placeOrder(this.cart?.cartItems as CartItem[]);
+      this.shoppingCartService.clearCart();
+    }
   }
 }

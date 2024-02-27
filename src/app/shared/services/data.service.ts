@@ -11,6 +11,10 @@ import { CategoryResponseDto } from '../dtos/categories/category-response.dto';
 import { CartItemDto } from '../dtos/cart-items/cart-item.dto';
 import { CartItemsResponseDto } from '../dtos/cart-items/cart-items-response.dto';
 import { CartItemsRequestDto } from '../dtos/cart-items/cart-items-request.dto';
+import { OrderDto } from '../dtos/orders/order.dto';
+import { OrderRequestDto } from '../dtos/orders/order-request.dto';
+import { OrderResponseDto } from '../dtos/orders/order-response.dto';
+import { OrdersResponseDto } from '../dtos/orders/orders-response.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -164,5 +168,33 @@ export class DataService {
         catchError(throwError),
         map((res) => res)
       );
+  }
+
+  // Get User's Orders
+  getUserOrders(email: string) {
+    return this.http.get<OrdersResponseDto>(`${environment.shoppingCartApiUrl}/Order/GetUserOrders/${email}`)
+    .pipe(
+      catchError(throwError),
+      map(res => res)
+    );
+  }
+
+  // Create or Update Order
+  upsertOrder(id: number, request: OrderRequestDto) : Observable<OrderDto> {
+    const upsert =
+    id === 0
+      ? this.http.post<OrderResponseDto>(
+          `${environment.shoppingCartApiUrl}/Order/CreateOrder`,
+          request
+        )
+      : this.http.put<OrderResponseDto>(
+          `${environment.shoppingCartApiUrl}/Order/UpdateOrder/${id}`,
+          request
+        );
+
+    return upsert.pipe(
+      catchError(throwError),
+      map((res) => res.order)
+    );
   }
 }
