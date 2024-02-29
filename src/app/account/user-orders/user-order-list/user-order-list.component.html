@@ -1,0 +1,51 @@
+<div class="col-sm-12 col-md-10 col-md-offset-1"
+     *ngIf="orders$ | async as orders;">
+  <table
+    class="table table-hover" 
+    *ngIf="orders.length > 0; else noOrders"       
+  >
+    <thead>
+      <tr>
+        <th>Order Number</th>
+        <th>Created Date</th>
+        <th>Status</th>
+        <th>Subtotal</th>
+        <th>Sales Tax</th>
+        <th>Total</th>
+        <th> </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders; let i = index">
+        <td class="col-sm-2 col-md-2">
+          <a [routerLink]="['/account/orders', order.id]">{{ order.id }}</a>
+        </td>
+        <td class="col-sm-2 col-md-2">
+          {{ order.createdOn | date:'shortDate' }}
+        </td>            
+        <td class="col-sm-2 col-md-2">
+            {{ order.status }}
+        </td>
+        <td class="col-sm-2 col-md-2">
+          <strong>{{ order.subTotal | currency }}</strong>
+        </td>
+        <td class="col-sm-2 col-md-2">
+          <strong>
+            {{ order.salesTax | currency }}
+          </strong>
+        </td>
+        <td class="col-sm-2 col-md-2">
+            <strong>
+              {{ order.total | currency }}
+            </strong>
+          </td>
+      </tr>          
+    </tbody>
+  </table>
+  <ng-template #noOrders>
+    <h3 class="text-center">
+      You have No Orders Yet.
+    </h3>
+  </ng-template>
+</div>
+

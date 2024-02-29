@@ -1,0 +1,88 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-10 col-md-offset-1"  *ngIf="order$ | async as order">
+      <h4 class="col-xs-12">Order No {{ order.id }}</h4>
+
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th class="text-center">Quantity</th>
+            <th class="text-center">Price</th>
+            <th class="text-center">Total</th>
+            <th> </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let orderItem of order.orderItems; let i = index">
+            <td class="col-sm-8 col-md-6">
+              <div class="media">
+                <a class="thumbnail pull-left" href="#">
+                  <img
+                    class="media-object"
+                    [src]="orderItem.item.imagePath"
+                    style="width: 72px; height: 72px"
+                  />
+                </a>
+                <div class="media-body" style="padding-left: 15px">
+                  <h4 class="media-heading">
+                    <a href="#">{{ orderItem.item.name }}</a>
+                  </h4>
+                  <h5 class="media-heading">
+                    {{ orderItem.item.description }}
+                  </h5>
+                </div>
+              </div>
+            </td>
+            <td class="col-sm-2 col-md-2" style="text-align: center">
+              <strong>{{ orderItem.quantity }}</strong>
+            </td>
+            <td class="col-sm-2 col-md-2 text-center">
+              <strong>{{ orderItem.price | currency }}</strong>
+            </td>
+            <td class="col-sm-2 col-md-2 text-center">
+              <strong>
+                {{
+                  orderItem.quantity > 0
+                    ? (orderItem.price * orderItem.quantity | currency)
+                    : "N/A"
+                }}
+              </strong>
+            </td>
+          </tr>
+
+          <tr>
+            <td> </td>
+            <td> </td>
+            <td><h5>Subtotal</h5></td>
+            <td class="text-right">
+              <h5>
+                <strong>{{ order.subTotal | currency }}</strong>
+              </h5>
+            </td>
+          </tr>
+          <tr>
+            <td> </td>
+            <td> </td>
+            <td><h5>Sales Tax</h5></td>
+            <td class="text-right">
+              <h5>
+                <strong>{{ order.salesTax | currency }}</strong>
+              </h5>
+            </td>
+          </tr>
+          <tr>
+            <td> </td>
+            <td> </td>
+            <td><h3>Total</h3></td>
+            <td class="text-right">
+              <h3>
+                <strong>{{ order.total | currency }}</strong>
+              </h3>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
