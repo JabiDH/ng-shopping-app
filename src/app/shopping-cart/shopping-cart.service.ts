@@ -9,6 +9,7 @@ import { User } from '../auth/models/user.model';
 import { CartItemDto } from '../shared/dtos/cart-items/cart-item.dto';
 import { Cart } from './models/cart.model';
 import { CartItemsResponseDto } from '../shared/dtos/cart-items/cart-items-response.dto';
+import { TAX_RATE } from '../shared/models/constants.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ import { CartItemsResponseDto } from '../shared/dtos/cart-items/cart-items-respo
 export class ShoppingCartService {
   private cartSub: BehaviorSubject<Cart | null> = new BehaviorSubject<Cart | null>(null);
   private cart$: Observable<Cart | null> = this.cartSub.asObservable();
-  private user: User = {} as User;
+  user: User = {} as User;
 
   constructor(
     private dataService: DataService,
@@ -49,8 +50,7 @@ export class ShoppingCartService {
           count += items.quantity
         });
         return count;
-      }),
-      tap(count => console.log('Items count -> ', count))
+      })
     );
   }
 
@@ -77,9 +77,13 @@ export class ShoppingCartService {
     this.removeCartItems([cartItem]);
   }
 
+  clearCart(): void {
+    this.removeCartItems([], true);
+  }
+
   updateCartItemQuantity(cartItem: CartItem) {
     this.saveCartItems([cartItem]);
-  }
+  }  
 
   private saveCartItems(cartItems: CartItem[]): void {
     const request = {
@@ -97,12 +101,13 @@ export class ShoppingCartService {
       });
   }
 
-  private removeCartItems(cartItems: CartItem[]): void {
+  private removeCartItems(cartItems: CartItem[], clearAll: boolean = false): void {
     const request = {
       email: this.user.email,
       cartItems: cartItems.map((cartItem) => {
         return { ...cartItem } as CartItemDto;
       }),
+      clearAll: clearAll
     } as CartItemsRequestDto;
 
     this.dataService
@@ -115,11 +120,19 @@ export class ShoppingCartService {
 
   private mapCart(res: CartItemsResponseDto) {
     if(res.cartItems?.length === 0) return null;
+    let subtotal = 0;
+    res.cartItems.forEach(ci => {
+      const price = ci.item?.price as number;
+      const cartItemTotal = ci.quantity * price;
+      subtotal += cartItemTotal;
+    });
+    let salesTax = subtotal * TAX_RATE;
+    let total = subtotal + salesTax;
     return {
       cartItems: [...res.cartItems] as CartItem[],
-      subtotal: res.subtotal,
-      salesTax: res.salesTax,
-      total: res.total,
+      subtotal: subtotal,
+      salesTax: salesTax,
+      total: total,
     } as Cart;
   }
 }

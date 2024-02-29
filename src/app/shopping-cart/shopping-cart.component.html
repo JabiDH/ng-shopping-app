@@ -53,7 +53,11 @@
               </td>
               <td class="col-sm-1 col-md-1 text-center">
                 <strong>
-                  {{ cartItem.quantity > 0 ? (cartItem.item.price * cartItem.quantity | currency) : 'N/A' }}
+                  {{
+                    cartItem.quantity > 0
+                      ? (cartItem.item.price * cartItem.quantity | currency)
+                      : "N/A"
+                  }}
                 </strong>
               </td>
               <td class="col-sm-1 col-md-1">
@@ -83,7 +87,7 @@
               <td> </td>
               <td> </td>
               <td> </td>
-              <td><h5>Sale Tax</h5></td>
+              <td><h5>Sales Tax</h5></td>
               <td class="text-right">
                 <h5>
                   <strong>{{ cart.salesTax | currency }}</strong>
@@ -104,20 +108,43 @@
             <tr>
               <td> </td>
               <td> </td>
-              <td> </td>
               <td>
-                <button type="button" class="btn btn-default" (click)="onContinueShopping()">
-                  <span class="glyphicon glyphicon-shopping-cart"></span
-                  >&nbsp;Continue Shopping
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="onClearCart()"
+                >
+                  <span class="glyphicon glyphicon-trash"></span>
+                  &nbsp;Clear Cart
+                </button>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  (click)="onContinueShopping()"
+                >
+                  <span class="glyphicon glyphicon-shopping-cart"></span>
+                  &nbsp;Continue Shopping
                 </button>
               </td>
               <td>
                 <button
                   type="submit"
                   class="btn btn-success"
-                  [disabled]="!form.valid"
+                  style="width: 120px;"
+                  [disabled]="!form.valid || isLoading"
                 >
-                  Checkout&nbsp;<span class="glyphicon glyphicon-play"></span>
+                  <ng-container *ngIf="isLoading; else orderButton">
+                    <app-loading-spinner></app-loading-spinner>
+                  </ng-container>
+                  <ng-template #orderButton>
+                    <span *ngIf="!isLoading">Place Order</span>
+                    <span
+                      *ngIf="!isLoading"
+                      class="glyphicon glyphicon-play"
+                    ></span>
+                  </ng-template>
                 </button>
               </td>
             </tr>

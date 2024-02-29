@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: 'login', loadChildren: () => import('./auth/modules/login/login.module').then(x => x.LoginModule) },
   { path: 'items', loadChildren: () => import('./items/items.module').then(x => x.ItemsModule) },
   { path: 'categories', loadChildren: () => import('./categories/categories.module').then(x => x.CategoriesModule) },
+  { path: 'account', loadChildren: () => import('./account/account.module').then(x => x.AccountModule) },
 ];
 
 @NgModule({

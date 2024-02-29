@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    shoppingCartApiUrl: 'https://localhost:44385/api' 
+    shoppingCartApiUrl: 'https://localhost:32778/api' 
 }
